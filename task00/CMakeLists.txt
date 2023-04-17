@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)  # specify the version of cmake
+cmake_minimum_required(VERSION 3.10)  # specify the version of cmake
 
 #############################
 # set C++ detail
