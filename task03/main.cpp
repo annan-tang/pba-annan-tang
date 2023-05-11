@@ -170,8 +170,8 @@ void set_force_accelerated(
             particles[ip].force += gravitational_force(particles[jp].pos - particles[ip].pos); // adding up forces from near particles
           }
         } else { // far field approximation
-          // write a few lines of code here to compute the force from far grid.
-          // use the center for the gravity of the grid : `acc.grid2cg[jy * num_div + jx]`
+          unsigned int number_p = acc.grid2idx[jy * num_div + jx + 1] - acc.grid2idx[jy * num_div + jx];  // the number of particles in grid[jx, jy]
+          particles[ip].force += gravitational_force(acc.grid2cg[jy * num_div + jx] - particles[ip].pos)* number_p;
         }
       }
     }
@@ -186,7 +186,7 @@ int main() {
   constexpr unsigned int num_div = 30;
 
   // particle information
-  std::vector<Particle> particles(5000); // change the number of particles here
+  std::vector<Particle> particles(20000); // change the number of particles here
   for (auto &p: particles) {
     // initialization
     p.pos.setRandom();
@@ -212,8 +212,8 @@ int main() {
       if( i_step % 20 == 0 ){ std::cout << i_step << " steps in " << num_step << " steps computed" << std::endl; }
 
       // switch brute-force/accelerated computation here by uncomment/comment below
-      set_force_bruteforce(particles);
-      // set_force_accelerated(particles, acceleration, box_size, num_div);
+      // set_force_bruteforce(particles);
+      set_force_accelerated(particles, acceleration, box_size, num_div);
 
       for (auto &p: particles) {
         // leap frog time integration
