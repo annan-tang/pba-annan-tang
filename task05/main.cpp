@@ -30,6 +30,8 @@ void wdw_spring_3d(
 
   // write a few lines of code below to compute the gradient of elastic energy of this spring
   // with respect to the positions of the two end points.
+  dw[0]= stiffness * C * (node2xyz[0] - node2xyz[1]) /length;
+  dw[1]= stiffness * C * (node2xyz[1] - node2xyz[0]) /length;
 }
 
 float gradient_descent_energy_minimization(
@@ -73,7 +75,11 @@ float gradient_descent_energy_minimization(
 }
 
 int main() {
-  constexpr float learning_rate = 6.5e-3f;
+  constexpr float max_learning_rate = 3e-3f;
+  constexpr float min_learning_rate = 7e-4f;
+  float learning_rate = max_learning_rate;
+  double max_iteration = 50000.0;
+  double num_iteration = 0. ;
   constexpr int num_theta = 64;
   const auto[tri2vtx, vtx2xyz_ini] = pba::generate_mesh_annulus3(0.3, 0.8, 32, num_theta);
   const auto line2vtx = pba::lines_of_mesh(tri2vtx, static_cast<int>(vtx2xyz_ini.rows()));
@@ -92,6 +98,8 @@ int main() {
   pba::set_some_lighting();
 
   while (!::glfwWindowShouldClose(window)) {
+    num_iteration +=40.0;
+    learning_rate = max_learning_rate - std::min(std::max(num_iteration/max_iteration,0.), 1.)*(max_learning_rate - min_learning_rate);  // Learning rate linear annealing
     for (int itr = 0; itr < 40; ++itr) {
       float W = gradient_descent_energy_minimization(
           vtx2xyz, vtx2xyz_ini, line2vtx, 60.f, 1.f, {0., -0.1, 0}, vtx2isfree, learning_rate);
