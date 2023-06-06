@@ -40,6 +40,8 @@ Write a few lines of code around `line #52` to compute hessian accurately. After
 ![problem2](problem2.png)
 
 Write down the converged minimum value of the energy by updating the text below.
+converged minimum value of the energy: **-95.9901**
+![elastic_energy](final_elastic_energy.png)
 
 ## After Doing the Assignment
 
