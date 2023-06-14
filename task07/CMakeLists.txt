@@ -30,7 +30,7 @@ find_package(glfw3 REQUIRED)
 # include, build, and link
 
 include_directories(
-    ../external/eigen
+    /usr/include/eigen3/
 )
 
 add_executable(${PROJECT_NAME}
