@@ -6,7 +6,6 @@
 #define PBA_GL_UTIL_H_
 
 #include <cmath>
-
 #if defined(_WIN32) // windows
 #define NOMINMAX   // to remove min,max macro
 #include <windows.h>
