@@ -7,7 +7,7 @@
 #include <iostream>
 #include <vector>
 #include <cassert>
-#include <filesystem>
+#include <experimental/filesystem>
 #define GL_SILENCE_DEPRECATION
 #include <GLFW/glfw3.h>
 #include <Eigen/Dense>
@@ -22,7 +22,7 @@
 #endif
 
 auto load_my_bunny() {
-  auto[tri2vtx, vtx2xyz] = pba::load_wavefront_obj(std::filesystem::path(PATH_SOURCE_DIR) / "bunny_1k.obj");
+  auto[tri2vtx, vtx2xyz] = pba::load_wavefront_obj(std::experimental::filesystem::path(PATH_SOURCE_DIR) / "bunny_1k.obj");
   { // center-ize
     auto center = (vtx2xyz.colwise().maxCoeff() + vtx2xyz.colwise().minCoeff()) * 0.5;
     vtx2xyz.rowwise() -= center;
@@ -75,8 +75,8 @@ void step(
     // Write some code below to compute gradient of gravitational potential energy for each vertex
     // Code differentiation of energy w.r.t. translation and rotation for one line each.
     // For the differentiation w.r.t. rotation, observe how the rotation matrix will be updated at the line #83
-    // dEdt +=
-    // dEdo +=
+    dEdt += -gravity;
+    dEdo += -(rotation*gravity).cross(vtx2xyz_ini.row(i_vtx).transpose()).transpose();
     // do not change anything else except for the lines above.
   }
   translation -= learning_rate * dEdt;

@@ -9,7 +9,7 @@
 #include <cassert>
 #include <Eigen/Dense>
 #include <vector>
-#include <filesystem>
+#include <experimental/filesystem>
 #include <fstream>
 #include <iostream>
 
@@ -142,7 +142,7 @@ Eigen::Vector3f unit_normal_of_triangle(
 }
 
 auto load_wavefront_obj(
-    const std::filesystem::path &file_path) {
+    const std::experimental::filesystem::path &file_path) {
   std::ifstream fin;
   fin.open(file_path);
   if (fin.fail()) {
