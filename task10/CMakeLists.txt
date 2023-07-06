@@ -31,14 +31,14 @@ find_package(glfw3 REQUIRED)
 # include, build, and link
 
 include_directories(
-    ../external/eigen
+  /usr/include/eigen3.4.0
 )
 
 add_executable(${PROJECT_NAME}
     main.cpp
     )
 
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(${PROJECT_NAME} PRIVATE "stdc++fs"
     OpenGL::GL  # use OpenGL library
     glfw  # use glfw library
     )
